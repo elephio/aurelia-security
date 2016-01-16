@@ -87,8 +87,8 @@ var AuthService = (function () {
     }
   }, {
     key: "isAuthenticated",
-    value: function isAuthenticated() {
-      return this.auth.isAuthenticated();
+    get: function get() {
+      return this.auth.isAuthenticated;
     }
   }]);
 

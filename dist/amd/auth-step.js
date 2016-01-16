@@ -26,10 +26,10 @@ define(["exports", "aurelia-framework", "./auth", "./auth-config", "aurelia-rout
         if (routingContext.getAllInstructions().some(function (i) {
           return i.config.auth;
         })) {
-          if (!this.auth.isAuthenticated()) {
+          if (!this.auth.isAuthenticated) {
             LOG.debug("This route requires authentication. Redirecting to loginRedirect.");
             return next.cancel(new _aureliaRouter.Redirect(this.config.loginUrl));
-          } else if (this.auth.isAuthenticated() && routingContext.getAllInstructions().some(function (i) {
+          } else if (this.auth.isAuthenticated && routingContext.getAllInstructions().some(function (i) {
             return i.fragment;
           }) == this.config.loginUrl) {
             var loginRedirect = this.auth.getLoginRedirect();

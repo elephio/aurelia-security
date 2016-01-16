@@ -39,8 +39,13 @@ define(["exports", "aurelia-framework", "./storage", "./auth-config"], function 
         this.storage.remove(this.config.storageKey);
       }
     }, {
+      key: "hasToken",
+      get: function get() {
+        return getToken() != undefined;
+      }
+    }, {
       key: "isAuthenticated",
-      value: function isAuthenticated() {
+      get: function get() {
         var token = this.getToken();
         if (token) {
           var sections = token.split('.');
@@ -50,7 +55,11 @@ define(["exports", "aurelia-framework", "./storage", "./auth-config"], function 
           var exp = JSON.parse(window.atob(base64)).exp;
 
           if (exp) {
-            return Math.round(new Date().getTime() / 1000) <= exp;
+            var isExpired = !(Math.round(new Date().getTime() / 1000) <= exp);
+            if (isExpired) {
+              LOG.debug("Authentication token expired. Logging out...");
+              return false;
+            }
           }
 
           return true;

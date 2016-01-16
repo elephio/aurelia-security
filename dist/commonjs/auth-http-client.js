@@ -41,8 +41,8 @@ var AuthHttpClient = (function () {
       this.http.configure(function (fetchConfig) {
         fetchConfig.withBaseUrl(currentConfig.authBaseUrl).withInterceptor({
           request: function request(_request) {
-            LOG.debug(auth.isAuthenticated() + " and " + currentConfig.fetchInterceptor);
-            if (auth.isAuthenticated() && currentConfig.fetchInterceptor) {
+            LOG.debug(auth.isAuthenticated + " and " + currentConfig.fetchInterceptor);
+            if (auth.isAuthenticated && currentConfig.fetchInterceptor) {
               LOG.debug("Setting header " + currentConfig.authHeaderName + " with token");
               var token = auth.getToken();
               _request.headers.append(currentConfig.authHeaderName, token);

@@ -68,7 +68,8 @@ export class AuthService {
     });
   }
 
-  isAuthenticated() {
-    return this.auth.isAuthenticated();
+  get isAuthenticated() {
+    return this.auth.isAuthenticated;
   }
+
 }

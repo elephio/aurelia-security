@@ -80,8 +80,8 @@ define(["exports", "aurelia-framework", "aurelia-fetch-client", "./auth", "./aut
       }
     }, {
       key: "isAuthenticated",
-      value: function isAuthenticated() {
-        return this.auth.isAuthenticated();
+      get: function get() {
+        return this.auth.isAuthenticated;
       }
     }]);
 

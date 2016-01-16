@@ -16,6 +16,10 @@ export class Auth {
     return this.storage.get(this.config.storageKey);
   }
 
+  get hasToken() {
+    return getToken() != undefined;
+  }
+
   setToken(response) {
     let token = response.headers.get(this.config.authHeaderName);
     if(token) {
@@ -28,7 +32,7 @@ export class Auth {
     this.storage.remove(this.config.storageKey);
   }
 
-  isAuthenticated() {
+  get isAuthenticated() {
     let token = this.getToken();
     if (token) {
       let sections = token.split('.');
@@ -38,7 +42,11 @@ export class Auth {
       var exp = JSON.parse(window.atob(base64)).exp;
 
       if (exp) {
-        return Math.round(new Date().getTime() / 1000) <= exp;
+        let isExpired = !(Math.round(new Date().getTime() / 1000) <= exp);
+        if(isExpired) {
+          LOG.debug(`Authentication token expired. Logging out...`);
+          return false;
+        }
       }
 
       //for right now, let's just assume the jwt is valid...

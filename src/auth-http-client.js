@@ -29,7 +29,6 @@ export class AuthHttpClient {
         .withBaseUrl(currentConfig.authBaseUrl)
       .withInterceptor({
         request(request) {
-          LOG.debug(`${auth.isAuthenticated} and ${currentConfig.fetchInterceptor}`);
           if (auth.isAuthenticated && currentConfig.fetchInterceptor) {
             let token = auth.getToken();
             request.headers.append(currentConfig.authHeaderName, token);

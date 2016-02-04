@@ -37,7 +37,7 @@ export class AuthService {
       })
       .then(response => {
         if (!response.ok) {
-          return null
+          return response;
         }
         this.auth.setToken(response)
 
@@ -45,12 +45,11 @@ export class AuthService {
           LOG.debug(`Redirecting to ${this.config.loginRedirect}`);
           window.location.href = this.config.loginRedirect;
         }
-
         return response;
       })
       .catch(err => {
         LOG.error(err);
-        return null
+        return err;
       });
   }
 

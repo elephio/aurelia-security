@@ -15,7 +15,7 @@ export class AuthHttpClient {
   }
 
   configure(config) {
-    LOG.debug("Configuring AuthHttpClient");
+    LOG.debug("Configuring AuthHttpClient with interceptor.");
     if (config !== undefined) {
       this.authConfig.override(config);
     }
@@ -29,14 +29,10 @@ export class AuthHttpClient {
         .withBaseUrl(currentConfig.authBaseUrl)
       .withInterceptor({
         request(request) {
-          LOG.debug(`${auth.isAuthenticated} and ${currentConfig.fetchInterceptor}`);
           if (auth.isAuthenticated && currentConfig.fetchInterceptor) {
-            LOG.debug(`Setting header ${currentConfig.authHeaderName} with token`);
             let token = auth.getToken();
             request.headers.append(currentConfig.authHeaderName, token);
           }
-          LOG.debug(`access-control-allow-headers: ${request.headers.getAll("access-control-allow-headers")}`);
-          LOG.debug(request.headers.get(currentConfig.authHeaderName));
           return request;
         }
       });

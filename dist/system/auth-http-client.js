@@ -34,7 +34,7 @@ System.register(["aurelia-framework", "./auth-config", "./auth", "aurelia-fetch-
         _createClass(AuthHttpClient, [{
           key: "configure",
           value: function configure(config) {
-            LOG.debug("Configuring AuthHttpClient");
+            LOG.debug("Configuring AuthHttpClient with interceptor.");
             if (config !== undefined) {
               this.authConfig.override(config);
             }
@@ -45,14 +45,10 @@ System.register(["aurelia-framework", "./auth-config", "./auth", "aurelia-fetch-
             this.http.configure(function (fetchConfig) {
               fetchConfig.withBaseUrl(currentConfig.authBaseUrl).withInterceptor({
                 request: function request(_request) {
-                  LOG.debug(auth.isAuthenticated + " and " + currentConfig.fetchInterceptor);
                   if (auth.isAuthenticated && currentConfig.fetchInterceptor) {
-                    LOG.debug("Setting header " + currentConfig.authHeaderName + " with token");
                     var token = auth.getToken();
                     _request.headers.append(currentConfig.authHeaderName, token);
                   }
-                  LOG.debug("access-control-allow-headers: " + _request.headers.getAll("access-control-allow-headers"));
-                  LOG.debug(_request.headers.get(currentConfig.authHeaderName));
                   return _request;
                 }
               });

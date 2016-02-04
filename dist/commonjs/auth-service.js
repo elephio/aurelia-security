@@ -53,7 +53,7 @@ var AuthService = (function () {
         headers: headers
       }).then(function (response) {
         if (!response.ok) {
-          return null;
+          return response;
         }
         _this.auth.setToken(response);
 
@@ -61,11 +61,10 @@ var AuthService = (function () {
           LOG.debug("Redirecting to " + _this.config.loginRedirect);
           window.location.href = _this.config.loginRedirect;
         }
-
         return response;
       })["catch"](function (err) {
         LOG.error(err);
-        return null;
+        return err;
       });
     }
   }, {

@@ -57,7 +57,7 @@ System.register(["aurelia-framework", "aurelia-fetch-client", "./auth", "./auth-
               headers: headers
             }).then(function (response) {
               if (!response.ok) {
-                return null;
+                return response;
               }
               _this.auth.setToken(response);
 
@@ -65,11 +65,10 @@ System.register(["aurelia-framework", "aurelia-fetch-client", "./auth", "./auth-
                 LOG.debug("Redirecting to " + _this.config.loginRedirect);
                 window.location.href = _this.config.loginRedirect;
               }
-
               return response;
             })["catch"](function (err) {
               LOG.error(err);
-              return null;
+              return err;
             });
           }
         }, {

@@ -46,7 +46,7 @@ define(["exports", "aurelia-framework", "aurelia-fetch-client", "./auth", "./aut
           headers: headers
         }).then(function (response) {
           if (!response.ok) {
-            return null;
+            return response;
           }
           _this.auth.setToken(response);
 
@@ -54,11 +54,10 @@ define(["exports", "aurelia-framework", "aurelia-fetch-client", "./auth", "./aut
             LOG.debug("Redirecting to " + _this.config.loginRedirect);
             window.location.href = _this.config.loginRedirect;
           }
-
           return response;
         })["catch"](function (err) {
           LOG.error(err);
-          return null;
+          return err;
         });
       }
     }, {
